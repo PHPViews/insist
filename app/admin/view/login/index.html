@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 登录 |  后台管理系统 </title>
+
+    <!--STYLESHEET-->
+    <!--=================================================-->
+    <!--Open Sans Font [ OPTIONAL ]-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+    <link href="__NT__/css/nifty.min.css" rel="stylesheet">
+
+
+    <!--Nifty Premium Icon [ DEMONSTRATION ]-->
+    <!--<link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet">-->
+    <!--Demo [ DEMONSTRATION ]-->
+    <!--<link href="css/demo/nifty-demo.min.css" rel="stylesheet">-->
+    <!--Magic Checkbox [ OPTIONAL ]-->
+    <link href="__NT__/plugins/magic-check/css/magic-check.min.css" rel="stylesheet">
+
+    <!--JAVASCRIPT-->
+    <!--=================================================-->
+    <!--Pace - Page Load Progress Par [OPTIONAL]-->
+    <link href="__NT__/plugins/pace/pace.min.css" rel="stylesheet">
+    <script src="__NT__/plugins/pace/pace.min.js"></script>
+    <!--jQuery [ REQUIRED ]-->
+    <script src="__JS__/jquery-2.2.4.min.js"></script>
+    <!--BootstrapJS [ RECOMMENDED ]-->
+    <script src="__JS__/bootstrap.min.js"></script>
+    <!--NiftyJS [ RECOMMENDED ]-->
+    <script src="__NT__/js/nifty.min.js"></script>
+
+    <script src="http://static.geetest.com/static/tools/gt.js"></script>
+</head>
+
+<!--TIPS-->
+<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+
+<body>
+<div id="container" class="cls-container">
+
+    <!-- BACKGROUND IMAGE -->
+    <!--===================================================-->
+    <div class="bg-img" style="background-image: url('__NT__/img/bg-img.jpg');"></div>
+
+
+    <!-- LOGIN FORM -->
+    <!--===================================================-->
+    <div class="cls-content">
+        <div class="cls-content-sm panel">
+            <div class="panel-body">
+                <div class="mar-ver pad-btm">
+                    <h3 class="h4 mar-no">Account Login</h3>
+                    <p class="text-muted">Sign In to your account</p>
+                </div>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="username" autofocus value="admin">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" value="123456">
+                    </div>
+                    <div class="form-group">
+                        <p style="text-align: left; line-height: 28px">拖动完成验证</p>
+                        <div class="captcha-wrap">
+                            <div id="embed-captcha"></div>
+                            <p style="text-align: left;line-height: 28px" id="wait" class="show">正在加载验证码......</p>
+                        </div>
+                    </div>
+                    <div class="checkbox pad-btm text-left">
+                        <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
+                        <label for="demo-form-checkbox">Remember me</label>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="embed-submit">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--===================================================-->
+</div>
+<!--===================================================-->
+<!-- END OF CONTAINER -->
+<script>
+    var handlerEmbed = function (captchaObj) {
+        $("#embed-submit").click(function (e) {
+            var validate = captchaObj.getValidate();
+            if(!validate){
+                $("#notice")[0].className = "show";
+                setTimeout(function () {
+                    $("#notice")[0].className = "hide";
+                }, 2000);
+                e.preventDefault();
+            }
+        });
+        captchaObj.appendTo("#embed-captcha");
+        captchaObj.onReady(function () {
+            $("#wait")[0].className = "hide";
+        });
+    };
+    $.ajax({
+        url:""
+    })
+</script>
+
+</body>
+</html>
