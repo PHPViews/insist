@@ -9,4 +9,6 @@ return [
         '__LIB__'    => '/static/admin/lib',
         '__NT__'     => '/static/admin/nifty',
     ],
+
+
 ];

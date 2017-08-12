@@ -238,4 +238,11 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+    //极验证
+    'Geetest_id'=>'02317bd4001c2d84927f8af883d5e6b4',
+    'Geetest_key'=>'2bac5df37d134cbe365f5e7b030c5d70',
+
+    //密码加密key
+    'user_auth_key'=>'insist@admin@!2#'
+
 ];

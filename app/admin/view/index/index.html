@@ -1,0 +1,58 @@
+{extend name="public:base"/}
+{block name="main"}
+<div class="row">
+    <div class="row">
+        <div class="col-sm-12">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>系统信息</legend>
+            </fieldset>
+            <table class="layui-table" lay-even>
+                <colgroup>
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>参数</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="sys_info" id="vo"}
+                <tr>
+                    <td>{$key}</td>
+                    <td>{$vo}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>操作日志</legend>
+            </fieldset>
+            <table class="layui-table" lay-even>
+                <colgroup>
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>参数</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" id="vo"}
+                <tr>
+                    <td>{$vo.action_ip}</td>
+                    <td>{$vo.remark}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+            {$list->render()}
+        </div>
+    </div>
+</div>
+{/block}

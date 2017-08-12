@@ -34,7 +34,8 @@
     <script src="__JS__/bootstrap.min.js"></script>
     <!--NiftyJS [ RECOMMENDED ]-->
     <script src="__NT__/js/nifty.min.js"></script>
-
+    <script src="__LIB__/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="__LIB__/layui/css/layui.css?__v=1477903794767"  media="all">
     <script src="http://static.geetest.com/static/tools/gt.js"></script>
 </head>
 
@@ -58,15 +59,15 @@
                     <h3 class="h4 mar-no">Account Login</h3>
                     <p class="text-muted">Sign In to your account</p>
                 </div>
-                <form action="" method="post">
+                <form  method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="username" autofocus value="admin">
+                        <input type="text" id="username" class="form-control" placeholder="username" autofocus value="admin">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Password" value="123456">
+                        <input type="password" id="password" class="form-control" placeholder="Password" value="123456">
                     </div>
                     <div class="form-group">
-                        <p style="text-align: left; line-height: 28px">拖动完成验证</p>
+                        <p style="text-align: left; line-height: 28px">请先完成验证</p>
                         <div class="captcha-wrap">
                             <div id="embed-captcha"></div>
                             <p style="text-align: left;line-height: 28px" id="wait" class="show">正在加载验证码......</p>
@@ -76,7 +77,7 @@
                         <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
                         <label for="demo-form-checkbox">Remember me</label>
                     </div>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit" id="embed-submit">Sign In</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="button" id="embed-submit">Sign In</button>
                 </form>
             </div>
         </div>
@@ -86,26 +87,59 @@
 <!--===================================================-->
 <!-- END OF CONTAINER -->
 <script>
-    var handlerEmbed = function (captchaObj) {
-        $("#embed-submit").click(function (e) {
-            var validate = captchaObj.getValidate();
-            if(!validate){
-                $("#notice")[0].className = "show";
-                setTimeout(function () {
-                    $("#notice")[0].className = "hide";
-                }, 2000);
-                e.preventDefault();
+    layui.use(['form'], function(){
+        layer = layui.layer;
+        var handlerEmbed = function (captchaObj) {
+            $("#embed-submit").click(function (e) {
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    layer.msg('请先完成验证');
+                    return false;
+                }else{
+                    var username=$("#username").val(),
+                        password=$("#password").val(),
+                        remember=$(".remember_me").is(':checked')?1:0,
+                        geetest_challenge=$(".geetest_challenge").val(),
+                        geetest_validate=$('.geetest_validate').val(),
+                        geetest_seccode=$(".geetest_seccode").val();
+                    if(username==""||password==""){
+                        layer.msg('请输入用户名或密码');
+                        return false;
+                    }
+                    $.post("/admin/Login/index",{username:username,password:password,remember:remember,geetest_challenge:geetest_challenge,geetest_validate:geetest_validate,geetest_seccode:geetest_seccode},function(data){
+                        if(data.status){
+                            layer.msg(data.info);
+                            setTimeout(function(){
+                                window.location.href=data.url;
+                            },1000)
+                            parent.layer.close();
+                        }else{
+                            location.reload();
+                            layer.msg(data.info);
+                        }
+                    })
+                }
+            });
+            captchaObj.appendTo("#embed-captcha");
+            captchaObj.onReady(function () {
+                $("#wait")[0].className = "hide";
+            });
+        };
+
+        $.ajax({
+            url: "{:url('index/Index/getVerify',array('t'=>time()))}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                }, handlerEmbed);
             }
         });
-        captchaObj.appendTo("#embed-captcha");
-        captchaObj.onReady(function () {
-            $("#wait")[0].className = "hide";
-        });
-    };
-    $.ajax({
-        url:""
-    })
+    });
 </script>
-
 </body>
 </html>
