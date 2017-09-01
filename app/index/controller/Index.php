@@ -2,14 +2,18 @@
 namespace app\index\controller;
 
 use app\common\controller\Home;
+use think\Loader;
 
 class Index extends Home
 {
     public function index()
     {
+//        if(request()->isPost()){
+//
+//        }
+        $a=xcode('1111');
         return view();
     }
-
 
     public function getVerify()
     {
